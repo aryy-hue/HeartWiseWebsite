@@ -1,8 +1,8 @@
 Analisis Risiko Penyakit Jantung (Heart Risk Analysis)
-
 Aplikasi web sederhana untuk memprediksi risiko penyakit jantung pada pasien berdasarkan beberapa parameter medis. Aplikasi ini dibangun menggunakan model klasifikasi Decision Tree dan disajikan dengan antarmuka web yang interaktif menggunakan Flask.
 
-    Catatan: Ganti link https://i.ibb.co/L5rK5Q5/image.png di atas dengan link screenshot aplikasi Anda. Ambil screenshot halaman utama aplikasi Anda dan unggah ke layanan seperti ImgBB atau langsung ke repositori GitHub Anda.
+<a href="https://ibb.co/YTjCrWpT"><img src="https://i.ibb.co/S7vjLxR7/Screenshot-from-2025-06-22-19-15-32.png" alt="Screenshot-from-2025-06-22-19-15-32" border="0"></a>
+    
 
 📜 Tentang Proyek
 
@@ -38,12 +38,9 @@ Prasyarat
 Pastikan Anda telah menginstal Python 3.x dan pip di sistem Anda.
 Instalasi
 
-    Clone repositori ini
-    Bash
+git clone https://github.com/aryy-hue/HeartWiseWebsite.git
 
-git clone https://github.com/username_anda/nama_repositori_anda.git
-
-    Ganti username_anda dan nama_repositori_anda dengan URL repositori GitHub Anda.
+    git clone https://github.com/aryy-hue/HeartWiseWebsite.git
 
 Masuk ke direktori proyek
 Bash
@@ -66,15 +63,13 @@ Bash
 
     pip install -r requirements.txt
 
-        Penting: Pastikan Anda memiliki file requirements.txt. Anda bisa membuatnya dengan menjalankan perintah pip freeze > requirements.txt di terminal setelah menginstal semua library (flask, pandas, scikit-learn, joblib, numpy, fpdf2).
 
 Penggunaan
 
     Jalankan server Flask
-    Bash
 
 python app.py
 
 Buka browser Anda dan akses alamat lokal anda:
 
-Isi formulir dengan data pasien, klik tombol "Analisis Sekarang", dan lihat hasilnya. Jika analisis berhasil, tombol untuk mengunduh PDF akan muncul.
+Isi formulir dengan data pasien, klik tombol "Analisis Sekarang", dan lihat hasilnya.
