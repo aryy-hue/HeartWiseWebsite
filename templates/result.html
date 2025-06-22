@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Rekomendasi Rujukan</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container result-container">
+        <h1>Hasil Rekomendasi Rujukan</h1>
+        
+        <div class="result-box {{ 'high-risk' if result.risk_level == 'High Risk' else 'moderate-risk' if result.risk_level == 'Moderate Risk' else 'low-risk' }}">
+            <h2>Status Risiko: {{ result.risk_level }}</h2>
+            <p class="recommendation">{{ result.recommendation }}</p>
+        </div>
+        
+        <div class="patient-data">
+            <h3>Data Pasien:</h3>
+            <table>
+                <tr>
+                    <td>Usia</td>
+                    <td>{{ result.patient_data.Age }} tahun</td>
+                </tr>
+                <tr>
+                    <td>Jenis Kelamin</td>
+                    <td>{{ 'Laki-laki' if result.patient_data.Gender == 1 else 'Perempuan' }}</td>
+                </tr>
+                <tr>
+                    <td>Denyut Jantung</td>
+                    <td>{{ result.patient_data['Heart rate'] }} bpm</td>
+                </tr>
+                <tr>
+                    <td>Tekanan Darah</td>
+                    <td>{{ result.patient_data['Systolic blood pressure'] }}/{{ result.patient_data['Diastolic blood pressure'] }} mmHg</td>
+                </tr>
+                <tr>
+                    <td>Gula Darah</td>
+                    <td>{{ result.patient_data['Blood sugar'] }} mg/dL</td>
+                </tr>
+                <tr>
+                    <td>CK-MB</td>
+                    <td>{{ result.patient_data['CK-MB'] }} ng/mL</td>
+                </tr>
+                <tr>
+                    <td>Troponin</td>
+                    <td>{{ result.patient_data.Troponin }} ng/mL</td>
+                </tr>
+                <tr>
+                    <td>Hasil Diagnosa Awal</td>
+                    <td>{{ result.patient_data.Result }}</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="actions">
+            <a href="/" class="btn">Kembali ke Formulir</a>
+            {% if result.risk_level == 'High Risk' %}
+            <a href="#" class="btn emergency">Panggil Unit Gawat Darurat</a>
+            {% endif %}
+        </div>
+        
+        <div class="medical-note">
+            <p><strong>Catatan Medis:</strong> Rekomendasi ini didasarkan pada analisis algoritma. Konsultasi dengan dokter tetap diperlukan untuk keputusan klinis akhir.</p>
+        </div>
+    </div>
+</body>
+</html>

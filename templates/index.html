@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeartWise - Analisis Risiko Jantung</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Palet Warna Medis */
+        :root {
+            --primary-blue: #0d6efd;
+            --hover-blue: #0b5ed7;
+            --light-blue-bg: #f0f7ff;
+            --success-green: #198754;
+            --success-bg: #e8f3ec;
+            --danger-red: #dc3545;
+            --danger-bg: #fbebee;
+            --background: #f8f9fa;
+            --text-dark: #212529;
+            --text-muted: #6c757d;
+            --card-border: #dee2e6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background-color: var(--background);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Header Website */
+        .site-header {
+            background-color: #ffffff;
+            padding: 15px 40px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Konten Utama */
+        .main-content {
+            padding: 50px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .header-info {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header-info h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header-info p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+        
+        /* Form Styling */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .form-group { display: flex; flex-direction: column; }
+        label { margin-bottom: 8px; font-weight: 600; color: #343a40; }
+        input, select {
+            padding: 12px 15px;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Nunito Sans', sans-serif;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.2);
+        }
+
+        /* Tombol Aksi Utama */
+        button {
+            grid-column: 1 / -1;
+            padding: 14px;
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        button:hover { background-color: var(--hover-blue); transform: translateY(-2px); }
+        button:disabled { background-color: #a1c7f8; cursor: not-allowed; }
+        
+        .btn-icon { width: 22px; height: 22px; }
+
+        /* Area Hasil yang Informatif */
+        #result-container { margin-top: 30px; display: none; animation: fadeIn 0.5s; }
+        .result-card {
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 6px solid;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        .result-icon { width: 40px; height: 40px; flex-shrink: 0; }
+        .result-text h3 { margin-bottom: 8px; font-size: 1.25rem; }
+        .result-text p { font-size: 1rem; margin: 0; }
+        
+        .result-safe { border-color: var(--success-green); background-color: var(--success-bg); }
+        .result-safe h3 { color: var(--success-green); }
+
+        .result-risk { border-color: var(--danger-red); background-color: var(--danger-bg); }
+        .result-risk h3 { color: var(--danger-red); }
+
+        .result-loading { text-align: center; font-style: italic; color: var(--text-muted); }
+        
+        /* Footer */
+        .site-footer {
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .disclaimer { font-weight: 600; color: var(--danger-red); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Responsif untuk Mobile */
+        @media (max-width: 768px) {
+            .site-header { flex-direction: column; gap: 10px; padding: 15px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .container { padding: 25px; }
+            .header-info h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <a href="#" class="logo">
+            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 4.38C12.8645 3.51545 14.0051 3 15.2148 3C18.2393 3 20.5 5.26073 20.5 8.28521C20.5 10.6375 18.8953 14.2829 12.8344 18.9131C12.3683 19.3005 11.6317 19.3005 11.1656 18.9131C5.10469 14.2829 3.5 10.6375 3.5 8.28521C3.5 5.26073 5.76073 3 8.78521 3C9.99487 3 11.1355 3.51545 12 4.38Z" stroke="#0d6efd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 11H16" stroke="#0d6efd" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 7V15" stroke="#0d6efd" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span class="logo-text">HeartWise</span>
+        </a>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="header-info">
+                <h1>Formulir Analisis Risiko Kardiovaskular</h1>
+                <p>Isi data pasien di bawah ini untuk evaluasi prediktif.</p>
+            </div>
+
+            <form id="prediction-form">
+                <div class="form-grid">
+                    <div class="form-group"><label for="Age">Umur</label><input type="number" id="Age" name="Age" placeholder="cth: 52" required></div>
+                    <div class="form-group"><label for="Gender">Gender</label><select id="Gender" name="Gender" required><option value="" disabled selected>Pilih Gender</option><option value="0">Wanita</option><option value="1">Pria</option></select></div>
+                    <div class="form-group"><label for="Heart_rate">Detak Jantung (bpm)</label><input type="number" id="Heart_rate" name="Heart rate" placeholder="cth: 80" required></div>
+                    <div class="form-group"><label for="Systolic_blood_pressure">Tekanan Sistolik (mmHg)</label><input type="number" id="Systolic_blood_pressure" name="Systolic blood pressure" placeholder="cth: 120" required></div>
+                    <div class="form-group"><label for="Diastolic_blood_pressure">Tekanan Diastolik (mmHg)</label><input type="number" id="Diastolic_blood_pressure" name="Diastolic blood pressure" placeholder="cth: 80" required></div>
+                    <div class="form-group"><label for="Blood_sugar">Gula Darah (mmol/L)</label><input type="number" step="0.1" id="Blood_sugar" name="Blood sugar" placeholder="cth: 6.8" required></div>
+                    <div class="form-group"><label for="CK-MB">CK-MB (ng/mL)</label><input type="number" step="0.01" id="CK-MB" name="CK-MB" placeholder="cth: 2.4" required></div>
+                    <div class="form-group"><label for="Troponin">Troponin (ng/mL)</label><input type="number" step="0.001" id="Troponin" name="Troponin" placeholder="cth: 0.01" required></div>
+                    <div class="form-group"><label for="Result">Hasil Tes Sebelumnya</label><select id="Result" name="Result" required><option value="" disabled selected>Pilih Hasil</option><option value="0">Negatif</option><option value="1">Positif</option></select></div>
+                </div>
+                <button type="submit" id="submit-button">
+                    <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+                        <path d="M16.5 3C19.5376 3 22 5.5 22 8.5C22 11.5 19.5376 14 16.5 14C13.4624 14 11 11.5 11 8.5C11 5.5 13.4624 3 16.5 3ZM16.5 5C14.567 5 13 6.567 13 8.5C13 10.433 14.567 12 16.5 12C18.433 12 20 10.433 20 8.5C20 6.567 18.433 5 16.5 5ZM17 6V8H19V9H17V11H16V9H14V8H16V6H17ZM8 4C5.79086 4 4 5.79086 4 8V15C4 17.2091 5.79086 19 8 19H12C12.5523 19 13 18.5523 13 18C13 17.4477 12.5523 17 12 17H8C6.89543 17 6 16.1046 6 15V8C6 6.89543 6.89543 6 8 6H13.5858L14.2929 6.70711C14.6834 7.09763 15.3166 7.09763 15.7071 6.70711L16.4142 6H18.8284L19.4142 5.41421C19.8047 5.02369 20.4379 5.02369 20.8284 5.41421L21.4142 6H22V8C22 8.55228 22.4477 9 23 9C23.5523 9 24 8.55228 24 8V4C24 3.44772 23.5523 3 23 3H2.9918C2.44391 3 2 3.44391 2 3.9918V20.0082C2 20.5561 2.44391 21 2.9918 21H13C13.5523 21 14 20.5523 14 20C14 19.4477 13.5523 19 13 19H4.9918C4.44391 19 4 18.5561 4 18.0082V8C4.41748 8 4.79321 7.84277 5.07422 7.58301L5.58579 7.07129L6.41421 7.92871C6.80474 8.31924 7.4379 8.31924 7.82843 7.92871L8.41421 7.29289L9.58579 8.41421C9.97631 8.80474 10.6095 8.80474 11.0000 8.41421L12.4142 7H13V8C13 8.55228 12.5523 9 12 9C11.4477 9 11 8.55228 11 8V6.41421L10.4142 6.92871C9.83516 7.50776 8.88516 7.50776 8.30612 6.92871L7.41421 6.07129L6.58579 6.92871C6.00674 7.50776 5.05674 7.50776 4.47769 6.92871L3.58579 6.07129C3.00674 5.49224 3.00674 4.54224 3.58579 3.96319L4.41421 3.17157C4.80474 2.78105 5.4379 2.78105 5.82843 3.17157L6.41421 3.70711L7.58579 2.58579C7.97631 2.19526 8.60948 2.19526 9.00000 2.58579L10.4142 4H8C5.79086 4 4 5.79086 4 8H4Z"/>
+                    </svg>
+                    <span id="button-text">Analisis Sekarang</span>
+                </button>
+            </form>
+
+            <div id="result-container"></div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2025 HeartWise. Seluruh hak cipta dilindungi.</p>
+        <p class="disclaimer">PENTING: Alat ini adalah model prediksi dan tidak menggantikan konsultasi medis profesional.</p>
+    </footer>
+
+    <script>
+        // Pastikan ada elemen di HTML Anda untuk menampilkan hasil, contoh: <div id="result-container"></div>
+        document.getElementById('prediction-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+    
+            const resultContainer = document.getElementById('result-container'); // Ganti dengan ID elemen hasil Anda
+            const formData = new FormData(event.target);
+    
+            // Tampilkan status loading
+            resultContainer.style.display = 'block';
+            resultContainer.innerHTML = '<p>Menganalisis data...</p>';
+    
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+    
+                const data = await response.json();
+    
+                // Cek jika ada anomali (status 400)
+                if (response.status === 400 && data.anomalies) {
+                    let errorHTML = `
+                        <div style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 15px; border-radius: 8px;">
+                            <h3>Input Tidak Valid</h3>
+                            <p>Harap perbaiki input berikut:</p>
+                            <ul style="margin-top: 10px; padding-left: 20px;">`;
+                    
+                    data.anomalies.forEach(anomaly => {
+                        errorHTML += `<li>${anomaly}</li>`;
+                    });
+    
+                    errorHTML += `</ul></div>`;
+                    resultContainer.innerHTML = errorHTML;
+    
+                } else if (response.ok) { // Jika sukses
+                    resultContainer.innerHTML = `
+                        <div style="color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; padding: 15px; border-radius: 8px;">
+                            <h3>Hasil Analisis</h3>
+                            <p><strong>Tingkat Risiko:</strong> ${data.risk_level}</p>
+                            <p><strong>Rekomendasi:</strong> ${data.recommendation}</p>
+                        </div>`;
+                } else { // Jika ada error lain dari server
+                    resultContainer.innerHTML = `<p style="color: red;">Error: ${data.error || 'Terjadi kesalahan tidak diketahui.'}</p>`;
+                }
+    
+            } catch (error) {
+                resultContainer.innerHTML = '<p style="color: red;">Gagal terhubung ke server. Periksa koneksi Anda.</p>';
+                console.error('Fetch error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
